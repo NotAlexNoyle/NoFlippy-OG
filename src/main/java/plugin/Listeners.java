@@ -47,8 +47,23 @@ public class Listeners implements Listener {
 		// If the interaction was a right click, do this...
 		if(action.isRightClick()) {
 
+			// Declare a container for the block type for null checking.
+			String blockContainerAsString = null;
+			try {
+
+				// Try storing the block type as a string. Throws NullPointerException if not applicable.
+				blockContainerAsString = blockClicked.getType().toString();
+
+			}
+			catch(NullPointerException error) {
+
+				// Do nothing if block type is null.
+				return;
+
+			}
+
 			// If the interaction was with a trap door, do this...
-			if(blockClicked.getType().toString().contains("TRAPDOOR")); {
+			if(blockContainerAsString.contains("TRAPDOOR")); {
 
 				// If the player does not have permission to flip trap doors, do this...
 				if(! player.hasPermission("noflippy.bypass")) {
