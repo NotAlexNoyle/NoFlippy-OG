@@ -5,3 +5,7 @@ website: https://github.com/NotAlexNoyle/NoFlippy-OG/
 version: 1.0
 api-version: 1.18
 main: plugin.NoFlippyOG
+depend: [WorldGuard]
+permissions:
+  noflippy.bypass:
+    default: false
