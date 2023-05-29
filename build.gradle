@@ -7,7 +7,7 @@ plugins { // Declare the gradle plugins being used.
 }
 
 group = 'net.trueog.noflippy-og' // Declare bundle identifier.
-version = '1.0' // Declare version for output .jar file.
+version = '1.1' // Declare version for output .jar file.
 
 def apiVersion = "1.18.2" // Declare minecraft server target version.
 def targetJavaVersion = 17 // Declare java compatibility minimum.
