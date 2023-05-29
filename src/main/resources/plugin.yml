@@ -1,7 +1,7 @@
-name: DuelEnhancer-OG
+name: NoFlippy-OG
 author: NotAlexNoyle
-description: An extension to Duels by Realizedd made for TrueOG
-website: https://github.com/NotAlexNoyle/DuelEnhancer-OG/
+description: A plugin to prevent trapdoors being flipped in certain regions by certain groups. Made for https://true-og.net/
+website: https://github.com/NotAlexNoyle/NoFlippy-OG/
 version: 1.0
 api-version: 1.18
-main: plugin.DuelEnhancerOG
+main: plugin.NoFlippyOG

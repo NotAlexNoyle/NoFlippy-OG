@@ -1,86 +1,86 @@
-plugins {
+plugins { // Declare the gradle plugins being used.
 
-    id 'java' // Tell gradle this is a java project.
-    id 'com.github.johnrengelman.shadow' version '7.1.2' // Import utility to package libraries into .jar file.
-    id 'eclipse' // Import eclipse plugin for IDE integration.
+	id 'java' // Tell gradle this is a java project.
+	id 'com.github.johnrengelman.shadow' version '7.1.2' // Import utility to package libraries into .jar file.
+	id 'eclipse' // Import eclipse plugin for IDE integration.
 
 }
 
-group = 'net.trueog.duelenhancer-og' // Declare bundle identifier.
-version = '1.0'
+group = 'net.trueog.noflippy-og' // Declare bundle identifier.
+version = '1.0' // Declare version for output .jar file.
 
 def apiVersion = "1.18.2" // Declare minecraft server target version.
 def targetJavaVersion = 17 // Declare java compatibility minimum.
 
 processResources {
 
-    def props = [
-        version: version,
-        apiVersion: apiVersion,
-    ]
+	def props = [
+		version: version,
+		apiVersion: apiVersion,
+	]
 
-    inputs.properties props // Indicates to rerun if version changes.
+	inputs.properties props // Indicates to re-run if version changes.
 
-    filesMatching("plugin.yml") {
+	filesMatching("plugin.yml") {
 
-        expand props
+		expand props
 
-    }
+	}
 
 }
 
 repositories {
 
-    mavenCentral()
+	mavenCentral()
 
-    maven {
+	maven {
 
-	name "purpur-repo" // Declare a name for the Purpur repository.
-        url "https://repo.purpurmc.org/snapshots" // Get Purpur API from PurpurMC's Maven repository.
+		name 'purpur-repo' // Declare a name for the Purpur repository.
+		url 'https://repo.purpurmc.org/snapshots' // Get Purpur API from PurpurMC's Maven repository.
 
-    }
+	}
 
-    maven {
+	maven {
 
-	name 'jitpack-repo' // Declare a name for the Jitpack repository.
-        url 'https://jitpack.io' // Import Jitpack repository for Duels API.
+		name 'enginehub-repo' // Declare a name for the EngineHub repository.
+		url 'https://maven.enginehub.org/repo/' // Import EngineHub repository for WorldGuard API.
 
-    }
+	}
 
 }
 
 dependencies {
 
-    compileOnly "org.purpurmc.purpur:purpur-api:1.18.2-R0.1-SNAPSHOT" // Build the Purpur API.
-    compileOnly 'com.github.Realizedd.Duels:duels-api:3.5.1' // Build the Duels API.
+	compileOnly "org.purpurmc.purpur:purpur-api:1.18.2-R0.1-SNAPSHOT" // Build the Purpur API.
+	compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7' // Build the WorldGuard API.
 
 }
 
 shadowJar {
 
-    minimize()
-    
+	minimize()
+
 }
 
 jar.dependsOn shadowJar
 
 tasks.jar.configure {
 
-    archiveClassifier = "part"
+	archiveClassifier = "part"
 
 }
 
 tasks.shadowJar.configure {
 
-    archiveClassifier = null
+	archiveClassifier = null
 
 }
 
 tasks.withType(JavaCompile).configureEach {
 
-    options.compilerArgs += ["-parameters"]
-    options.compilerArgs.add("-Xlint:deprecation")
-    options.encoding = 'UTF-8' // Override the system character set with a universal set.
-    options.fork = true // Enable compilation in a separate daemon process.
+	options.compilerArgs += ["-parameters"]
+	options.compilerArgs.add("-Xlint:deprecation")
+	options.encoding = 'UTF-8' // Override the system character set with a universal set.
+	options.fork = true // Enable compilation in a separate daemon process.
 
 }

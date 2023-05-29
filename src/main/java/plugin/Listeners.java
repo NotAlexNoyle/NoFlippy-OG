@@ -3,49 +3,74 @@
 
 package plugin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerGameModeChangeEvent;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 
-import me.realized.duels.api.Duels;
-import net.md_5.bungee.api.ChatColor;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import com.sk89q.worldguard.protection.regions.RegionQuery;
 
 public class Listeners implements Listener {
 
 	// Declare instance of class as static so multiple players can use it.
 	private static Listeners instance;
 
-	// Initialize Duels API.
-	private static Duels api = (Duels) Bukkit.getServer().getPluginManager().getPlugin("Duels");
-
 	// Return instance of class as static so multiple players can use it.
 	public static Listeners getInstance() {
 
+		// Pass back Listeners to main.
 		return instance;
 
 	}
 
 	// Listen for a player's game mode changing.
 	@EventHandler
-	public void onSurvivalMode(PlayerGameModeChangeEvent event) {
+	public void onInteract(PlayerInteractEvent event) {
 
-		// Store player as object for multiple references.
+		// Get the nature of the interaction and store it.
+		Action action = event.getAction();
+		// Get the block that was interacted with and store it.
+		Block blockClicked = event.getClickedBlock();
+		// Get the player who interacted and store them.
 		Player player = event.getPlayer();
 
-		// Use Duels API to tell if the player whose game mode has changed is spectating a duel.
-		if(api.getSpectateManager().isSpectating(player)) {
+		// If the interaction was a right click, do this...
+		if(action.isRightClick()) {
 
-			// If the player was put in survival (presumably by WorldGuard), do this...
-			if(player.getGameMode() == GameMode.SURVIVAL) {
+			// If the interaction was with a trap door, do this...
+			if(blockClicked.getType().toString().contains("TRAPDOOR")); {
 
-				// Inform the player that they will stop spectating the match.
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&2True&4OG&7] &6Out of bounds! Your Duel spectating session has ended."));
+				// If the player does not have permission to flip trap doors, do this...
+				if(! player.hasPermission("noflippy.bypass")) {
 
-				// Stop the player from spectating the match.
-				api.getSpectateManager().stopSpectating(player);
+					// Fetch the player's current regions.
+					RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+					RegionQuery query = container.createQuery();
+					Location location = BukkitAdapter.adapt(player.getLocation());
+					ApplicableRegionSet set = query.getApplicableRegions(location);
+
+					// Loop through all of the player's current regions.
+					for (ProtectedRegion region : set.getRegions()) {
+
+						// If spawn is among them, do this...
+						if (region.getId().equalsIgnoreCase("Spawn")){
+
+							// Cancel the trapdoor flip.
+							event.setCancelled(true);
+
+						}
+
+					}
+
+				}
 
 			}
 
