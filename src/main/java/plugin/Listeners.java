@@ -10,11 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.util.Location;
+import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 
@@ -66,22 +65,20 @@ public class Listeners implements Listener {
 				// If the player does not have permission to flip trap doors, do this...
 				if(! player.hasPermission("noflippy.bypass")) {
 
-					// Fetch the player's current regions.
+					// Get the WorldGuard Player.
+					LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
 					RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+					com.sk89q.worldedit.util.Location worldGuardPlayerLocation = localPlayer.getLocation();
+
+					// Get the WorldGuard Player's Regions.
 					RegionQuery query = container.createQuery();
-					Location location = BukkitAdapter.adapt(player.getLocation());
-					ApplicableRegionSet set = query.getApplicableRegions(location);
+					ApplicableRegionSet set = query.getApplicableRegions(worldGuardPlayerLocation);
 
-					// Loop through all of the player's current regions.
-					for (ProtectedRegion region : set.getRegions()) {
+					// If the Flippy Flag is set to DENY, cancel the event.
+					if (!set.testState(localPlayer, NoFlippyOG.getFlippyFlag())){
 
-						// If spawn is among them, do this...
-						if (region.getId().equalsIgnoreCase("Spawn")){
-
-							// Cancel the trapdoor flip.
-							event.setCancelled(true);
-
-						}
+						// Cancel the trapdoor flip.
+						event.setCancelled(true);
 
 					}
 
