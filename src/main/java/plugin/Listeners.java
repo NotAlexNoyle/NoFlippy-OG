@@ -28,7 +28,7 @@ public class Listeners implements Listener {
 
 	}
 
-	// Listen for a player interacting with a trapdoor
+	// Listen for a player interacting with a trapdoor.
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 
@@ -68,7 +68,7 @@ public class Listeners implements Listener {
 					RegionQuery query = container.createQuery();
 					ApplicableRegionSet set = query.getApplicableRegions(blockLocation);
 
-//					 if the Flippy Flag is set to DENY, cancel the event
+					// If the Flippy Flag is set to DENY, cancel the event.
 					if (!set.testState(null, NoFlippyOG.getFlippyFlag())){
 
 						// Cancel the trapdoor flip.
