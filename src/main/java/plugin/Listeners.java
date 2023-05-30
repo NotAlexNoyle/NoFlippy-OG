@@ -33,7 +33,7 @@ public class Listeners implements Listener {
 
 	}
 
-	// Listen for a player's game mode changing.
+	// Listen for a player interacting with a trapdoor
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 
@@ -53,16 +53,13 @@ public class Listeners implements Listener {
 				// If the player does not have permission to flip trap doors, do this...
 				if(! player.hasPermission("noflippy.bypass")) {
 
-					// get the WorldGuard player
-					LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+					Location blockLocation = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
 					RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-					com.sk89q.worldedit.util.Location worldGuardPlayerLocation = localPlayer.getLocation();
-
 					RegionQuery query = container.createQuery();
-					ApplicableRegionSet set = query.getApplicableRegions(worldGuardPlayerLocation);
+					ApplicableRegionSet set = query.getApplicableRegions(blockLocation);
 
-						// if the Flippy Flag is set to DENY, cancel the event
-					if (!set.testState(localPlayer, NoFlippyOG.getFlippyFlag())){
+//					 if the Flippy Flag is set to DENY, cancel the event
+					if (!set.testState(null, NoFlippyOG.getFlippyFlag())){
 
 						// Cancel the trapdoor flip.
 						event.setCancelled(true);
