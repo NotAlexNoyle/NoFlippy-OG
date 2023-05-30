@@ -28,23 +28,31 @@ public class NoFlippyOG extends JavaPlugin {
 
 	public void onLoad(){
 
-		// add the WorldGuard flag for an area where NoFlippy is active
+		// Add the WorldGuard flag for an area where NoFlippy is active.
 		FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 		try {
-			// create a flag with the name "my-custom-flag", defaulting to true
+
+			// Create a flag with the name "my-custom-flag", defaulting to true.
 			StateFlag flag = new StateFlag("can-flippy", true);
+
+			// Register the new flag with WorldGuard.
 			registry.register(flag);
-			FlippyFlag = flag; // only set our field if there was no error
-		} catch (FlagConflictException e) {
-			// some other plugin registered a flag by the same name already.
-			// you can use the existing flag, but this may cause conflicts - be sure to check type
+
+			// Only set the field if there was no error.
+			FlippyFlag = flag;
+
+		}
+		catch (FlagConflictException e) {
+
+			// Some other plugin registered a flag by the same name already.
+			// You can use the existing flag, but this may cause conflicts - be sure to check type.
 			Flag<?> existing = registry.get("can-flippy");
 			if (existing instanceof StateFlag) {
+
 				FlippyFlag = (StateFlag) existing;
-			} else {
-				// types don't match - this is bad news! some other plugin conflicts with you
-				// hopefully this never actually happens
+
 			}
+
 		}
 
 	}
@@ -65,8 +73,11 @@ public class NoFlippyOG extends JavaPlugin {
 
 	}
 
-	public static StateFlag getFlippyFlag(){
+	// Share FlippyFlag with Listeners.
+	public static StateFlag getFlippyFlag() {
+
 		return FlippyFlag;
+
 	}
 
 }
