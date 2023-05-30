@@ -53,7 +53,7 @@ public class Listeners implements Listener {
 				// If the player does not have permission to flip trap doors, do this...
 				if(! player.hasPermission("noflippy.bypass")) {
 
-					Location blockLocation = BukkitAdapter.adapt(event.getClickedBlock().getLocation());
+					Location blockLocation = BukkitAdapter.adapt(blockClicked.getLocation());
 					RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 					RegionQuery query = container.createQuery();
 					ApplicableRegionSet set = query.getApplicableRegions(blockLocation);
