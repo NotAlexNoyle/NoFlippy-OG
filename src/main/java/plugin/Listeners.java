@@ -56,8 +56,6 @@ public class Listeners implements Listener {
 		// If the interaction was with a trap door, do this...
 		if(blockContainerAsString.contains("TRAPDOOR")) {
 
-			NoFlippyOG.getPlugin().getLogger().info("Trapdoor triggered!");
-
 			// If the interaction was a right click, do this...
 			if(action.isRightClick()); {
 
