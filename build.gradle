@@ -7,9 +7,9 @@ plugins { // Declare the gradle plugins being used.
 }
 
 group = 'net.trueog.noflippy-og' // Declare bundle identifier.
-version = '1.3.1' // Declare version for output .jar file.
+version = '1.4' // Declare version for output .jar file.
 
-def apiVersion = "1.18.2" // Declare minecraft server target version.
+def apiVersion = "1.19.4" // Declare minecraft server target version.
 def targetJavaVersion = 17 // Declare java compatibility minimum.
 
 processResources {
@@ -51,8 +51,8 @@ repositories {
 
 dependencies {
 
-	compileOnly "org.purpurmc.purpur:purpur-api:1.18.2-R0.1-SNAPSHOT" // Build the Purpur API.
-	compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7' // Build the WorldGuard API.
+	compileOnly "org.purpurmc.purpur:purpur-api:1.19.4-R0.1-SNAPSHOT" // Build the Purpur API.
+	compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.8' // Build the WorldGuard API.
 
 }
 
